@@ -1,0 +1,4 @@
+.idea/
+.vagrant/
+id_rsa.pub
+*.log

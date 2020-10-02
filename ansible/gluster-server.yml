@@ -1,0 +1,30 @@
+---
+- 
+  hosts: all
+
+  vars:
+    gluster_version: "3.12"
+
+  tasks:
+  - name: Install packages
+    apt: 
+      pkg: ['apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'acl']
+      state: present
+
+  - name: apt repository
+    apt_repository: repo="ppa:gluster/glusterfs-{{ gluster_version }}" state=present
+    notify: update apt cache
+
+  - name: Install glusterfs-server
+    apt: pkg="glusterfs-server" state=present
+
+  - name: Service glusterd
+    service: name=glusterd state=started enabled=yes
+
+  - name: directory gluster/volume0
+    file: path=/gluster/volume0 state=directory mode=0700 owner=root group=root
+    
+  handlers:
+  - name: update apt cache
+    apt: update_cache=yes
+

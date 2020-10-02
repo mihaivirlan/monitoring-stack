@@ -1,0 +1,5 @@
+
+# convert README.md -> README.html
+
+pandoc -t revealjs -s -o README.html README.md -V revealjs-url=https://revealjs.com
+
